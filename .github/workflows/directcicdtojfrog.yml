@@ -37,6 +37,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
+        cd app
         docker build . --file Dockerfile --tag "githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest"
         docker images
 
