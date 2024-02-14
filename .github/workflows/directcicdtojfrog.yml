@@ -33,7 +33,7 @@ jobs:
     - name: Print Directory Contents After Build
       run: |
         ls -R
-        ls -R app/target
+        ls -R target
 
     - name: Include target directory
       run: |
@@ -63,12 +63,12 @@ jobs:
         tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
         sudo cp -f linux-amd64/helm /usr/bin
         helm version
-        cd ..
+        cd target  # Change to the target directory
         ls
-        yq e -i '.image.tag = "latest"' ./app/helmchart/values.yaml
-        helm template ./app/helmchart
-        helm lint ./app/helmchart
-        helm package ./app/helmchart --version "1.0.0"
+        yq e -i '.image.tag = "latest"' ../helmchart/values.yaml
+        helm template ../helmchart
+        helm lint ../helmchart
+        helm package ../helmchart --version "1.0.0"
 
     - name: Upload Helm chart to JFrog Artifactory
       run: |
