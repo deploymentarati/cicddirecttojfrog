@@ -48,10 +48,9 @@ jobs:
 
     - name: Test Case Stage
       run: |
-        cd app/target/surefire-reports
-        ls
-        cd ../test-classes/com/application/springboot/app
-        ls
+        # Add your test cases here
+        cd app
+        mvn test
 
     - name: Docker Login to JFrog
       run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrog.jfrog.io
