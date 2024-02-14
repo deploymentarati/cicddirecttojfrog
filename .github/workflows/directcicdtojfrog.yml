@@ -39,7 +39,6 @@ jobs:
       run: |
         mv app/target .
 
-
     - name: Build Docker Image
       run: |
         cd app
@@ -64,12 +63,13 @@ jobs:
         tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
         sudo cp -f linux-amd64/helm /usr/bin
         helm version
-        cd ..
+        cd app/helmchart  # Change to the Helm chart directory
         ls
-        yq e -i '.image.tag = "latest"' ./app/helmchart/values.yaml
-        helm template ./app/helmchart
-        helm lint ./app/helmchart
-        helm package ./app/helmchart --version "1.0.0"
+        # Adjust the path to values.yaml based on its location within your project structure
+        yq e -i '.image.tag = "latest"' values.yaml
+        helm template .
+        helm lint .
+        helm package . --version "1.0.0"
 
     - name: Upload Helm chart to JFrog Artifactory
       run: |
