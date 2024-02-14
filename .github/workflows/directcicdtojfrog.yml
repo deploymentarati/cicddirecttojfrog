@@ -63,12 +63,12 @@ jobs:
         tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
         sudo cp -f linux-amd64/helm /usr/bin
         helm version
-        cd app/target  # Change to the target directory
+        cd target/test-classes/com/application/springboot/app  # Adjust the path based on your project structure
         ls
-        yq e -i '.image.tag = "latest"' ../../helmchart/values.yaml
-        helm template ../../helmchart
-        helm lint ../../helmchart
-        helm package ../../helmchart --version "1.0.0"
+        yq e -i '.image.tag = "latest"' ../../../helmchart/values.yaml
+        helm template ../../../helmchart
+        helm lint ../../../helmchart
+        helm package ../../../helmchart --version "1.0.0"
 
     - name: Upload Helm chart to JFrog Artifactory
       run: |
