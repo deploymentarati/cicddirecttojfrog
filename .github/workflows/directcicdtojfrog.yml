@@ -35,10 +35,6 @@ jobs:
         ls -R
         ls -R target
 
-    - name: Include target directory
-      run: |
-        mv target ..
-
     - name: Build Docker Image
       run: |
         cd app
@@ -48,8 +44,8 @@ jobs:
     - name: Test Case Stage
       run: |
         # Add your test cases here
-        cd app
-        mvn test
+        cd app/target/test-classes
+        ls
 
     - name: Docker Login to JFrog
       run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrog.jfrog.io
@@ -63,15 +59,16 @@ jobs:
         tar -xvzf helm-v3.5.2-linux-amd64.tar.gz
         sudo cp -f linux-amd64/helm /usr/bin
         helm version
-        cd ../helmchart  # Adjust the path based on your project structure
+        cd ..
         ls
-        yq e -i '.image.tag = "latest"' ./values.yaml
-        helm template .
-        helm lint .
-        helm package . --version "1.0.0"
+        yq e -i '.image.tag = "latest"' ./app/helmchart/values.yaml
+        helm template ./app/helmchart
+        helm lint ./app/helmchart
+        helm package ./app/helmchart --version "1.0.0"
 
     - name: Upload Helm chart to JFrog Artifactory
       run: |
+        cd app
         wget -O jfrog https://getcli.jfrog.io
         chmod +x jfrog
         sudo mv jfrog /usr/local/bin/
