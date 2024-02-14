@@ -43,8 +43,7 @@ jobs:
 
     - name: Test Case Stage
       run: |
-        # Add your test cases here
-        cd app/target/test-classes
+        cd app/target/test-classes/com/application/springboot/app
         ls
 
     - name: Docker Login to JFrog
