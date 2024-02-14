@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -41,8 +41,9 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -f app/Dockerfile -t aratimahe/app:latest .
+        docker build . --file Dockerfile --tag "githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest"
         docker images
+      working-directory: app
 
     - name: Test Case Stage
       run: |
@@ -53,11 +54,8 @@ jobs:
     - name: Docker Login to JFrog
       run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrog.jfrog.io
 
-    - name: Docker Tag
-      run: docker tag aratimahe/app githubactionsjfrog.jfrog.io/cicd/aratimahe/app:latest
-
-    - name: Docker Push to JFrog
-      run: docker push githubactionsjfrog.jfrog.io/cicd/aratimahe/app:latest
+    - name: Docker Push to Jfrog
+      run: jf rt docker-push githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest directcicdtojfrog
 
     - name: Build Helm Chart
       run:  |
@@ -80,4 +78,4 @@ jobs:
         sudo mv jfrog /usr/local/bin/
         export PATH=$PATH:/usr/local/bin
         jfrog rt c --url https://githubactionsjfrog.jfrog.io/artifactory --interactive=false
-        jfrog rt upload --config=./jfrog.yaml "helmchart-1.0.0.tgz" cicd
+        jfrog rt upload --config=./jfrog.yaml "helmchart-1.0.0.tgz" directcicdtojfrog
