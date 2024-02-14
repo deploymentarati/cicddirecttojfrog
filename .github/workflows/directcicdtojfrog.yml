@@ -43,7 +43,9 @@ jobs:
 
     - name: Test Case Stage
       run: |
-        cd app/target/test-classes/com/application/springboot/app
+        cd app/target/surefire-reports
+        ls
+        cd ../test-classes/com/application/springboot/app
         ls
 
     - name: Docker Login to JFrog
