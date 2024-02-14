@@ -33,17 +33,13 @@ jobs:
     - name: Print Directory Contents After Build
       run: |
         ls -R
-        ls -R app/target
-
-    - name: Include target directory
-      run: |
-        mv app/target .
+        ls -R target
 
     - name: Build Docker Image
       run: |
+        cd app
         docker build . --file Dockerfile --tag "githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest"
         docker images
-      working-directory: app
 
     - name: Test Case Stage
       run: |
@@ -55,7 +51,7 @@ jobs:
       run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrog.jfrog.io
 
     - name: Docker Push to Jfrog
-      run: jf rt docker-push githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest directcicdtojfrog
+      run: docker push githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest
 
     - name: Build Helm Chart
       run:  |
