@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: cicddirecttojfrog
+  description: |
+    This is a Spring Boot Maven project registered in the Backstage catalog.
+  annotations:
+    github.com/project-slug: deploymentarati/cicddirecttojfrog
+spec:
+  type: service
+  lifecycle: production
+  owner: dasgudearati@gmail.com
+  implementsApis:
+    - https://backstage.io/apis/spring-boot
