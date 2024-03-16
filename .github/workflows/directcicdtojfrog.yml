@@ -55,7 +55,7 @@ jobs:
       run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrogs.jfrog.io
 
     - name: Docker Push to Jfrog
-      run: docker push githubactionsjfrog.jfrog.io/directcicdtojfrogs/app:latest
+      run: docker push githubactionsjfrogs.jfrog.io/directcicdtojfrog-docker-local/app:latest
 
     - name: Build Helm Chart
       run:  |
