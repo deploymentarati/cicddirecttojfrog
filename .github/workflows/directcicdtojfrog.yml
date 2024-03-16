@@ -42,7 +42,7 @@ jobs:
     - name: Build Docker Image
       run: |
         cd app
-        docker build . --file Dockerfile --tag "githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest"
+        docker build . --file Dockerfile --tag "githubactionsjfrogs.jfrog.io/directcicdtojfrog-docker-local/app:latest"
         docker images
 
     - name: Test Case Stage
@@ -52,10 +52,10 @@ jobs:
         mvn test
 
     - name: Docker Login to JFrog
-      run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrog.jfrog.io
+      run: echo "${{ secrets.JF_PASSWORD }}" | docker login -u "${{ secrets.JF_USER }}" --password-stdin githubactionsjfrogs.jfrog.io
 
     - name: Docker Push to Jfrog
-      run: docker push githubactionsjfrog.jfrog.io/directcicdtojfrog/app:latest
+      run: docker push githubactionsjfrog.jfrog.io/directcicdtojfrogs/app:latest
 
     - name: Build Helm Chart
       run:  |
@@ -79,4 +79,4 @@ jobs:
         sudo mv jfrog /usr/local/bin/
         export PATH=$PATH:/usr/local/bin
         jfrog rt c --url https://githubactionsjfrog.jfrog.io/artifactory --interactive=false
-        jfrog rt upload --config=./jfrog.yaml "helmchart-1.0.0.tgz" directcicdtojfrog
+        jfrog rt upload --config=./jfrog.yaml "helmchart-1.0.0.tgz" directcicdtojfrog-docker-local
